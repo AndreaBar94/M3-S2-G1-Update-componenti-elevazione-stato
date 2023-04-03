@@ -23,8 +23,8 @@ class SingleBook extends Component {
                 <Card.Text>
                 € {this.props.price}
                 </Card.Text>
-                <CommentArea id={this.props.id}>
-                </CommentArea> 
+                {this.state.selected && <CommentArea id={this.props.id}>
+                </CommentArea> }
             </Card.Body>
             </Card>
         )

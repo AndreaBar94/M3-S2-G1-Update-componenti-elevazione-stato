@@ -2,53 +2,76 @@ import { Component } from "react";
 import { Button, Form } from "react-bootstrap";
 
 let authorization = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDE0MzI5NGY4MWI0MjAwMTM5YjI3ZWQiLCJpYXQiOjE2ODA1MjQ2NDksImV4cCI6MTY4MTczNDI0OX0.niPd6nu1dFizpA8FFK5zdC_prg92GwBgNRGPoAgDQ4g";
+
 class AddComment extends Component {
     state = {
-        comment: null,
+        comment: "",
+        rate: "",
     }
 
-    handleSubmit = async e => {
-        e.preventDefault();
-
+    handleSubmit = async () => {
         try {
-            const response = await fetch('https://striveschool-api.herokuapp.com/api/comments/'+ this.props.id,{
-            method: "POST",
-            body: JSON.stringify(this.state.comment),
+            const response = await fetch('https://striveschool-api.herokuapp.com/api/comments/', {
             headers: {
                 Authorization : authorization,
-                "Content-type": "application/json"
-            }
+                "Content-type": "application/json; charset=UTF-8"
+            },
+            method: "POST",
+            body: JSON.stringify({comment: this.state.comment, rate: this.state.rate, elementId: this.props.id})
         })
-        if(response.ok){
-            this.setState({comment: ""})
-        } else{
-            alert("errore nella pubblicazione del commento")
-        }
-
+            if(response.ok){
+                this.setState({comment: "", rate: ""})
+            } else{
+                alert("errore nella pubblicazione del commento")
+            }
         } catch (error) {
             console.log(error)
         }
-    
-    }
+    };
 
-    
+    submitComment = (e) => {
+		e.preventDefault();
+		this.handleSubmit();
+	};
+
+    handleChange = (propertyName, propertyValue) => {
+		this.setState({
+			[propertyName]: propertyValue,
+		});
+	};
 
     render(){
         return(
             <>
-            <Form onSubmit={this.handleSubmit}>
-                <Form.Group placeholder="Inserisci qui il tuo commento" >
-                    <Form.Control type="text" placeholder="Inserisci qui il tuo commento" />
-                        <Form.Text onChange={(e)=>{this.setState({comment: e.target.value})}}>
-                        </Form.Text>
+            <Form onSubmit={this.submitComment}>
+                <Form.Group>
+                    <Form.Control 
+                    type="text" 
+                    placeholder="Inserisci qui il tuo commento"
+                    onChange={(e)=>{this.handleChange("comment", e.target.value)}}
+                    value={this.state.comment} />
+                    <Form.Select
+							aria-label="Default select example"
+							value={this.state.rate}
+							onChange={(e) => {
+								this.handleChange('rate', e.target.value);
+							}}>
+							<option value="1">One</option>
+							<option value="2">Two</option>
+							<option value="3">Three</option>
+							<option value="4">Four</option>
+							<option value="5">Five</option>
+						</Form.Select>
                 </Form.Group>
-                <Button variant="primary">
+                <Button variant="primary" type="submit">
                     Submit
                 </Button>
             </Form>
             </>
         )
     }
+
+    
 }
 
 export default AddComment;
