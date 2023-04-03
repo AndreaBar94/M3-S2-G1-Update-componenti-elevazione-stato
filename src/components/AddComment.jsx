@@ -16,11 +16,13 @@ class AddComment extends Component {
             body: JSON.stringify(this.state.comment),
             headers: {
                 Authorization : authorization,
-                "Content-type": "application/json; charset=UTF-8"
+                "Content-type": "application/json"
             }
         })
         if(response.ok){
-            // this.setState({comment: comment})
+            this.setState({comment: ""})
+        } else{
+            alert("errore nella pubblicazione del commento")
         }
 
         } catch (error) {
@@ -40,7 +42,7 @@ class AddComment extends Component {
                         <Form.Text onChange={(e)=>{this.setState({comment: e.target.value})}}>
                         </Form.Text>
                 </Form.Group>
-                <Button variant="primary" type="submit" >
+                <Button variant="primary">
                     Submit
                 </Button>
             </Form>
