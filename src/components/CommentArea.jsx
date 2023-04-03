@@ -1,6 +1,6 @@
 import { Component } from "react";
 import CommentsList from "./CommentsList";
-// import AddComment from "./AddComment";
+import AddComment from "./AddComment";
 
 
 let authorization = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDE0MzI5NGY4MWI0MjAwMTM5YjI3ZWQiLCJpYXQiOjE2ODA1MjQ2NDksImV4cCI6MTY4MTczNDI0OX0.niPd6nu1dFizpA8FFK5zdC_prg92GwBgNRGPoAgDQ4g";
@@ -38,8 +38,7 @@ class CommentArea extends Component {
         return( 
             <>
                 <CommentsList comment={this.state.comments}/>
-                
-                {/* <AddComment/> */}
+                <AddComment id={this.props.id}/>
             </>
         )
             
