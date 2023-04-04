@@ -20,9 +20,11 @@ class AddComment extends Component {
             body: JSON.stringify({comment: this.state.comment, rate: this.state.rate, elementId: this.props.id})
         })
             if(response.ok){
+                alert("Commento inviato!");
                 this.setState({comment: "", rate: ""})
+                this.props.fetchComments()
             } else{
-                alert("errore nella pubblicazione del commento")
+                alert("Errore nella pubblicazione del commento")
             }
         } catch (error) {
             console.log(error)
