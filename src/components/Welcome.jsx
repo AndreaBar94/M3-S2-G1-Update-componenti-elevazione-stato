@@ -1,5 +1,3 @@
-
-
 function Welcome(){
     return(
         <div className="jumbotron jumbotron-fluid p-5 bg-warning bg-opacity-25">

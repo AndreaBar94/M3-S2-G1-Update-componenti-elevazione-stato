@@ -1,19 +1,17 @@
-import { Component } from "react";
+import {useEffect, useState } from "react";
 import CommentsList from "./CommentsList";
 import AddComment from "./AddComment";
 
-
 let authorization = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDE0MzI5NGY4MWI0MjAwMTM5YjI3ZWQiLCJpYXQiOjE2ODA1MjQ2NDksImV4cCI6MTY4MTczNDI0OX0.niPd6nu1dFizpA8FFK5zdC_prg92GwBgNRGPoAgDQ4g";
 
-class CommentArea extends Component {
-    state = {
-        error: false,
-        comments: [],
-    };
+const CommentArea = (props) => {
 
-    fetchComments = async () => {
+    const [setError] = useState(false);
+    const [comments, setComments] = useState([]);
+
+    const fetchComments = async () => {
         try {
-            const response = await fetch('https://striveschool-api.herokuapp.com/api/comments/' + this.props.id,{
+            const response = await fetch('https://striveschool-api.herokuapp.com/api/comments/' + props.id,{
                 headers:{
                     Authorization: authorization
                 }
@@ -21,29 +19,27 @@ class CommentArea extends Component {
 
             if (response.ok){
                 const fetchedComments = await response.json();
-                this.setState({ comments: fetchedComments});
+                setComments(fetchedComments)
             } else{
-                this.setState({ error: true});
+                setError(true)
             }
         } catch (error) {
-            this.setState({ error: true });
+            setError(true)
         }
     }
     
-    componentDidMount() {
-        this.fetchComments();
-    }
+    useEffect(() => {
+        fetchComments()
+    }, [])
 
-    render(){
         return( 
             <>
-                <CommentsList comment={this.state.comments} />
-                <AddComment id={this.props.id} fetchComments={this.fetchComments}/>
+                <CommentsList comment={comments} />
+                <AddComment id={props.id} fetchComments={fetchComments}/>
             </>
         )
             
         
-    }
 };
 
 export default CommentArea;

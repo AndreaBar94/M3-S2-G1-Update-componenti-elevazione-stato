@@ -1,4 +1,3 @@
-import { Component } from "react";
 import {Row, Col, Form, FormControl} from 'react-bootstrap';
 import scifi from "../data/scifi.json";
 import fantasy from "../data/fantasy.json";
@@ -6,27 +5,24 @@ import history from "../data/history.json";
 import horror from "../data/horror.json";
 import romance from "../data/romance.json";
 import SingleBook from "./SingleBook";
+import { useState } from 'react';
 
-class BookList extends Component {
-    state = {
-        initialValue: null,
-        searchString: "",
-        allTheBooks: [
-            ...scifi,
-            ...fantasy,
-            ...history,
-            ...horror,
-            ...romance
-        ]
+const BookList = () => {
+
+    const [initialValue, setInitialValue] = useState(null);
+    const [searchString, setSearchString] = useState("");
+    const [allTheBooks] = useState([...scifi,
+                ...fantasy,
+                ...history,
+                ...horror,
+                ...romance])
+
+    const handleChange = (event) => {
+        setInitialValue(event.target.value)
     }
-    handleChange = (event) => {
-        this.setState({initialValue: event.target.value});
+    const filterBookList = (event) =>{
+        setSearchString(event.target.value)
     }
-    filterBookList = (event) =>{
-        this.setState({searchString: event.target.value});
-    }
-    render(){
-        const {allTheBooks, searchString, initialValue} = this.state;
 
         const filteredBooks = allTheBooks.filter(book =>
             book.title.toLowerCase().includes(searchString.toLowerCase()) &&
@@ -40,13 +36,13 @@ class BookList extends Component {
                     <FormControl 
                     type="text" 
                     placeholder="Select a category (fantasy, history, horror, romance, scifi)" 
-                    onChange={this.handleChange} 
+                    onChange={handleChange} 
                     />
                     <FormControl 
                     type="text" 
                     className="my-3"
                     placeholder="Search by title" 
-                    onChange={this.filterBookList} 
+                    onChange={filterBookList} 
                     />
                 </Form>
                 </div>
@@ -60,7 +56,7 @@ class BookList extends Component {
                 </Row>
             </>
     )
-    }
+    
 }
 
 export default BookList;
