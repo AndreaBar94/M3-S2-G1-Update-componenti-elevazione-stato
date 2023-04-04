@@ -5,7 +5,7 @@ const CommentsList = (props) => {
         return(
             <ListGroup>
                 {props.comment.map((book) => 
-                    <SingleComment singleComment={book.comment}></SingleComment>
+                    <SingleComment singleComment={book.comment} commentId={book._id}></SingleComment>
                 )}
             </ListGroup>
         )

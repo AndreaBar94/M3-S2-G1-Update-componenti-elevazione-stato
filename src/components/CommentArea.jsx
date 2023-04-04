@@ -8,6 +8,7 @@ const CommentArea = (props) => {
 
     const [setError] = useState(false);
     const [comments, setComments] = useState([]);
+    const [id] = useState(props.id);
 
     const fetchComments = async () => {
         try {
@@ -20,6 +21,7 @@ const CommentArea = (props) => {
             if (response.ok){
                 const fetchedComments = await response.json();
                 setComments(fetchedComments)
+
             } else{
                 setError(true)
             }
@@ -27,7 +29,11 @@ const CommentArea = (props) => {
             setError(true)
         }
     }
-    
+        
+    useEffect(()=>{
+        fetchComments();
+    },[id]);
+    // useEffect(()=> {console.log("willUnmount()")})
     useEffect(() => {
         fetchComments()
     }, [])
